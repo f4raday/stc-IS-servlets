@@ -3,6 +3,8 @@ package controllers;
 import model.DataInterfaces.UserDAO;
 import model.DataInterfaces.interfaces.IUserDAO;
 import model.classes.User;
+import model.services.UserService;
+import model.services.interfaces.IUserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +15,8 @@ import java.util.logging.Logger;
 
 public class RegistrationServlet extends HttpServlet{
 
-    private static IUserDAO userDAO = new UserDAO();
+//    private static IUserDAO userDAO = new UserDAO();
+    private static IUserService userService = new UserService();
 
     private static final Logger log = Logger.getLogger(RegistrationServlet.class.getName());
 
@@ -29,11 +32,23 @@ public class RegistrationServlet extends HttpServlet{
         String password = req.getParameter("password");
         String name = req.getParameter("name");
 
-        if(userDAO.findUserByLogin(login) == null) {
-            userDAO.insert(new User(login, password, name));
-            log.info("Registration succesful");
-        } else {
+        if(login == "" || password == "" || name == "") {
+            log.info("Registration failed. User passed empty parameter");
+
+            req.setAttribute("errorMsg", "All fields must be non-empty");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+
+            return;
+        } else if(userService.findUserByLogin(login) != null) {
             log.info("Registration failed. User already exists");
+
+            req.setAttribute("errorMsg", "All fields must be non-empty");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+
+            return;
+        } else {
+            userService.save(login, password, name);
+            log.info("Registration succesful");
         }
 
         resp.sendRedirect(req.getContextPath() + "/");

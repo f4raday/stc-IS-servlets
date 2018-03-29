@@ -2,6 +2,10 @@ package controllers;
 
 import model.DataInterfaces.UserDAO;
 import model.DataInterfaces.interfaces.IUserDAO;
+import model.services.ProductService;
+import model.services.UserService;
+import model.services.interfaces.IProductService;
+import model.services.interfaces.IUserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +17,9 @@ import java.util.logging.Logger;
 
 public class LoginServlet extends HttpServlet {
 
-    private static IUserDAO userDAO = new UserDAO();
+//    private static IUserDAO userDAO = new UserDAO();
+    private static IUserService userService = new UserService();
+
     private static final Logger log = Logger.getLogger(LoginServlet.class.getName());
 
     @Override
@@ -27,14 +33,25 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if(userDAO.findUserByLoginData(login, password) != null) {
+        if(password == "" || login == "") {
+
+            req.setAttribute("errorMsg", "Login and password must be non-empty");
+
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            return;
+        }
+
+        if(userService.findUserByLoginData(login, password) != null) {
             req.getSession().setAttribute("user", login);
 //            req.getRequestDispatcher("/productList.jsp").forward(req, resp);
             log.info("User " + login + " logged in succesfuly");
             resp.sendRedirect(req.getContextPath()+"/");
         } else  {
             log.info("User " + login + " failed to login");
-            resp.sendRedirect(req.getContextPath() + "/error");
+
+            req.setAttribute("errorMsg", "User with such login and password not found");
+
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
 
         //super.doPost(req, resp);

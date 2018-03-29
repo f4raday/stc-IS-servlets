@@ -7,6 +7,7 @@
 </head>
 <body>
 <form method="post" name="checkboxes">
+
     <c:forEach items="${requestScope.products}" var="elem">
         <!--<p>${elem.description}  ${elem.availableAmount}</p>-->
         <input type="radio" name="elem" value=${elem.description}> ${elem.description} ${elem.availableAmount}<br>
@@ -15,5 +16,7 @@
 </form>
 
 <a href="/new_product">New product</a>
+
+<a href="/logout">Logout</a>
 </body>
 </html>

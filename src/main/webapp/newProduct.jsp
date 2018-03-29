@@ -14,6 +14,7 @@
 <form method="post">
     Description: <input type="text" name="description" />
     Amount: <input type="text" name="availableAmount"/>
+    <p>${requestScope.errorMsg}</p>
     <input type="submit" value="new_product"/>
 </form>
 </body>

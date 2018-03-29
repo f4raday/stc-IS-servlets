@@ -2,7 +2,7 @@ package model.DataInterfaces;
 
 import model.DataInterfaces.interfaces.IUserDAO;
 import model.classes.User;
-import model.helpers.DataBase;
+import model.services.DataBase;
 
 import java.sql.*;
 import java.util.List;
@@ -19,8 +19,7 @@ public class UserDAO implements IUserDAO {
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM users WHERE login = ? AND password = ?;";
 
-        try {
-            Connection connection = DataBase.getConnection();
+        try (Connection connection = DataBase.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(DEFAULT_SQL_QUERY);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
@@ -37,7 +36,6 @@ public class UserDAO implements IUserDAO {
 
             resultSet.close();
             preparedStatement.close();
-            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,8 +52,7 @@ public class UserDAO implements IUserDAO {
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM users WHERE login = ?;";
 
-        try {
-            Connection connection = DataBase.getConnection();
+        try (Connection connection = DataBase.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(DEFAULT_SQL_QUERY);
             preparedStatement.setString(1, login);
 
@@ -71,7 +68,6 @@ public class UserDAO implements IUserDAO {
 
             resultSet.close();
             preparedStatement.close();
-            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,8 +85,7 @@ public class UserDAO implements IUserDAO {
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM users WHERE id = ?;";
 
-        try {
-            Connection connection = DataBase.getConnection();
+        try (Connection connection = DataBase.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(DEFAULT_SQL_QUERY);
             preparedStatement.setLong(1, id);
 
@@ -106,7 +101,6 @@ public class UserDAO implements IUserDAO {
 
             resultSet.close();
             preparedStatement.close();
-            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,9 +122,8 @@ public class UserDAO implements IUserDAO {
 
         String DEFAULT_SQL_QUERY = "INSERT INTO users (login, password, name) VALUES (?, ?, ?)";
 
-        try {
+        try (Connection connection = DataBase.getConnection()){
 //            Connection connection = DataBase.getDataSource().getConnection();
-            Connection connection = DataBase.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(DEFAULT_SQL_QUERY);
             preparedStatement.setString(1, entry.getLogin());
             preparedStatement.setString(2, entry.getPassword());
@@ -150,7 +143,6 @@ public class UserDAO implements IUserDAO {
 //
 //            resultSet.close();
             preparedStatement.close();
-            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

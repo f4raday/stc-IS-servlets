@@ -1,4 +1,4 @@
-package model.helpers;
+package model.services;
 
 
 import org.apache.tomcat.jdbc.pool.DataSource;

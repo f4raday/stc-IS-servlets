@@ -1,10 +1,8 @@
 package model.DataInterfaces;
 
-import controllers.HelloServlet;
 import model.DataInterfaces.interfaces.IProductDAO;
 import model.classes.Product;
-import model.classes.User;
-import model.helpers.DataBase;
+import model.services.DataBase;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -164,7 +162,6 @@ public class ProductDAO implements IProductDAO{
 
             resultSet.close();
             preparedStatement.close();
-            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

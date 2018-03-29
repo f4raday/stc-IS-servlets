@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Andrew
@@ -14,6 +15,7 @@
 <form method="post">
     Login: <input type="text" name="login" />
     Password: <input type="text" name="password"/>
+        <p>${requestScope.errorMsg}</p>
     <input type="submit" value="login"/>
 </form>
 <a href="/register">Register</a>
