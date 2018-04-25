@@ -33,4 +33,19 @@ public class User {
     public String getName() {
         return name;
     }
+
+
+    public static User Empty() {
+        return new User(-1, "","","");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        User that = (User) obj;
+        if(this.id == that.id
+                && this.login == that.login)
+            return true;
+
+        return false;
+    }
 }

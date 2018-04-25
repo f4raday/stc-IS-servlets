@@ -39,7 +39,16 @@ public class RegistrationServlet extends HttpServlet{
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
 
             return;
-        } else if(userService.findUserByLogin(login) != null) {
+        }
+
+        User user = userService.findUserByLogin(login);
+        if (user == null) {
+
+            log.info("Registration failed. No connection to database");
+
+            req.setAttribute("errorMsg", "Problem with database. Contact support");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+        } else if( !user.equals(User.Empty())) {
             log.info("Registration failed. User already exists");
 
             req.setAttribute("errorMsg", "All fields must be non-empty");

@@ -15,7 +15,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User findUserByLoginData(String login, String password) {
-        User user = null;
+        User user = User.Empty();
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM users WHERE login = ? AND password = ?;";
 
@@ -37,9 +37,10 @@ public class UserDAO implements IUserDAO {
             resultSet.close();
             preparedStatement.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
+            user = null;
         }
 
 
@@ -48,7 +49,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User findUserByLogin(String login) {
-        User user = null;
+        User user = User.Empty();
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM users WHERE login = ?;";
 
@@ -69,9 +70,10 @@ public class UserDAO implements IUserDAO {
             resultSet.close();
             preparedStatement.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
+            user = null;
         }
 
 
@@ -81,7 +83,7 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getByID(Long id) {
-        User user = null;
+        User user = User.Empty();
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM users WHERE id = ?;";
 
@@ -102,9 +104,10 @@ public class UserDAO implements IUserDAO {
             resultSet.close();
             preparedStatement.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
+            user = null;
         }
 
 
@@ -144,9 +147,10 @@ public class UserDAO implements IUserDAO {
 //            resultSet.close();
             preparedStatement.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
+            id = -1;
         }
 
         return id;

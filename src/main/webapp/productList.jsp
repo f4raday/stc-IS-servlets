@@ -8,6 +8,8 @@
 <body>
 <form method="post" name="checkboxes">
 
+    <p>${requestScope.errorMsg}</p>
+
     <c:forEach items="${requestScope.products}" var="elem">
         <!--<p>${elem.description}  ${elem.availableAmount}</p>-->
         <input type="radio" name="elem" value=${elem.description}> ${elem.description} ${elem.availableAmount}<br>

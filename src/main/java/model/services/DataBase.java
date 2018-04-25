@@ -48,7 +48,7 @@ public class DataBase {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/IS-products",
-                            "postgres", "postgres");
+                            "postgres", "zxcvbn1");
             log.info("Connected to database succesfuly");
         } catch (Exception e) {
             e.printStackTrace();

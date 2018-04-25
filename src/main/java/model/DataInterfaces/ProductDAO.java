@@ -37,7 +37,7 @@ public class ProductDAO implements IProductDAO{
             preparedStatement.close();
             connection.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
         }
@@ -70,9 +70,10 @@ public class ProductDAO implements IProductDAO{
             preparedStatement.close();
             connection.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
+            products = null;
         }
 
 
@@ -97,9 +98,10 @@ public class ProductDAO implements IProductDAO{
             preparedStatement.close();
             connection.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e ) {
             e.printStackTrace();
             log.info(e.getMessage());
+            id = -1;
         }
 
         return id;
@@ -125,9 +127,10 @@ public class ProductDAO implements IProductDAO{
             preparedStatement.close();
             connection.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e ) {
             e.printStackTrace();
             log.info(e.getMessage());
+            id = -1;
         }
 
 
@@ -163,7 +166,7 @@ public class ProductDAO implements IProductDAO{
             resultSet.close();
             preparedStatement.close();
 
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
         }

@@ -2,6 +2,7 @@ package controllers;
 
 import model.DataInterfaces.UserDAO;
 import model.DataInterfaces.interfaces.IUserDAO;
+import model.classes.User;
 import model.services.ProductService;
 import model.services.UserService;
 import model.services.interfaces.IProductService;
@@ -41,17 +42,23 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        if(userService.findUserByLoginData(login, password) != null) {
-            req.getSession().setAttribute("user", login);
-//            req.getRequestDispatcher("/productList.jsp").forward(req, resp);
-            log.info("User " + login + " logged in succesfuly");
-            resp.sendRedirect(req.getContextPath()+"/");
-        } else  {
+        User user = userService.findUserByLoginData(login, password);
+
+        if (user == null) {
+            req.setAttribute("errorMsg", "Problem with database. Contact support");
+
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        } else if(user.equals(User.Empty())) {
             log.info("User " + login + " failed to login");
 
             req.setAttribute("errorMsg", "User with such login and password not found");
 
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        } else  {
+            req.getSession().setAttribute("user", login);
+//            req.getRequestDispatcher("/productList.jsp").forward(req, resp);
+            log.info("User " + login + " logged in succesfuly");
+            resp.sendRedirect(req.getContextPath()+"/");
         }
 
         //super.doPost(req, resp);

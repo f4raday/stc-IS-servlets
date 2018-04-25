@@ -64,6 +64,10 @@ public class HelloServlet extends HttpServlet {
 
     private void ShowProducts(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Product> products = productService.getAll();
+
+        if(products == null)
+            req.setAttribute("errorMsg", "Problem connecting to the server database. Contact support");
+
         req.setAttribute("products", products);
         req.getRequestDispatcher("/productList.jsp").forward(req, resp);
     }
