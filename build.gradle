@@ -18,4 +18,5 @@ dependencies {
     compile 'postgresql:postgresql:9.1-901-1.jdbc4'
     compile group: 'log4j', name: 'log4j', version: '1.2.16'
     providedCompile 'org.apache.tomcat:tomcat-catalina:9.0.5'
+    providedCompile 'org.apache.tomcat:tomcat-jdbc:9.0.5'
 }
