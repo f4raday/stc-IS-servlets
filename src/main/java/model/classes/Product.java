@@ -36,4 +36,18 @@ public class Product {
         if(availableAmount<0)
             availableAmount = 0;
     }
+
+    public static Product Empty() {
+        return new Product(-1, "", -1);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Product that = (Product) obj;
+
+        if(this.description.equals(that.description))
+            return true;
+
+        return false;
+    }
 }

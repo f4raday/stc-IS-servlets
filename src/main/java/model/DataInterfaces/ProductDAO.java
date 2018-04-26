@@ -139,12 +139,31 @@ public class ProductDAO implements IProductDAO{
 
     @Override
     public Long delete(Product entry) {
-        return null;
+        long id = 0;
+
+        String DEFAULT_SQL_QUERY = "DELETE FROM products WHERE description = ?;";
+
+        try (Connection connection = DataBase.getConnection()){
+
+            PreparedStatement preparedStatement = connection.prepareStatement(DEFAULT_SQL_QUERY);
+            preparedStatement.setString(1, entry.getDescription());
+
+            preparedStatement.execute();
+
+            preparedStatement.close();
+
+        } catch (SQLException | NullPointerException e) {
+            e.printStackTrace();
+            log.info(e.getMessage());
+        }
+
+
+        return id;
     }
 
     @Override
     public Product getByDescription(String description) {
-        Product product = null;
+        Product product = Product.Empty();
 
         String DEFAULT_SQL_QUERY = "SELECT * FROM products WHERE description = ?;";
 
@@ -156,7 +175,7 @@ public class ProductDAO implements IProductDAO{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next())
-                product = new Product(resultSet.getString("description"),
+                product = new Product(resultSet.getString("description").trim(),
                     resultSet.getInt("availableAmount"));
             else
                 log.info("Product with description " + description + " not found");
@@ -169,6 +188,7 @@ public class ProductDAO implements IProductDAO{
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
             log.info(e.getMessage());
+            product = null;
         }
 
 

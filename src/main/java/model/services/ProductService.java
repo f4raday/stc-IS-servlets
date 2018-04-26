@@ -31,4 +31,9 @@ public class ProductService implements IProductService {
     public Long update(Product product) {
         return productDAO.update(product);
     }
+
+    @Override
+    public Long delete(Product product) {
+        return productDAO.delete(product);
+    }
 }

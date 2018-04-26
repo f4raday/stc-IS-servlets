@@ -42,8 +42,9 @@ public class User {
     @Override
     public boolean equals(Object obj) {
         User that = (User) obj;
-        if(this.id == that.id
-                && this.login == that.login)
+        if(this.login.equals(that.login)
+                && this.password.equals(that.password)
+                && this.name.equals(that.name))
             return true;
 
         return false;

@@ -29,4 +29,9 @@ public class UserService implements IUserService {
         User user = new User(login, password, name);
         return userDAO.insert(user);
     }
+
+    @Override
+    public Long remove(User user) {
+        return userDAO.delete(user);
+    }
 }

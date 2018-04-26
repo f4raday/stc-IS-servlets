@@ -27,8 +27,8 @@ public class UserDAO implements IUserDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next())
-                user = new User(resultSet.getString("login"),
-                    resultSet.getString("password"), resultSet.getString("name"));
+                user = new User(resultSet.getString("login").trim(),
+                    resultSet.getString("password").trim(), resultSet.getString("name").trim());
             else
                 log.info("User with this login and passowrd not found");
 
@@ -60,8 +60,8 @@ public class UserDAO implements IUserDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next())
-                user = new User(resultSet.getString("login"),
-                    resultSet.getString("password"), resultSet.getString("name"));
+                user = new User(resultSet.getString("login").trim(),
+                    resultSet.getString("password").trim(), resultSet.getString("name").trim());
             else
                 log.info("User with login " + login + " not found");
 
@@ -163,7 +163,30 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public Long delete(User entry) {
-        return null;
+            long id = 0;
+
+            String DEFAULT_SQL_QUERY = "DELETE FROM users WHERE login = ? AND password = ? AND name= ?";
+
+            try (Connection connection = DataBase.getConnection()){
+//            Connection connection = DataBase.getDataSource().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(DEFAULT_SQL_QUERY);
+                preparedStatement.setString(1, entry.getLogin());
+                preparedStatement.setString(2, entry.getPassword());
+                preparedStatement.setString(3, entry.getName());
+                preparedStatement.executeUpdate();
+
+
+                log.info("User with login " + entry.getLogin() + " deleted");
+
+                preparedStatement.close();
+
+            } catch (SQLException | NullPointerException e) {
+                e.printStackTrace();
+                log.info(e.getMessage());
+                id = -1;
+            }
+
+            return id;
     }
 
 

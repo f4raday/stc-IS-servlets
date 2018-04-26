@@ -9,4 +9,5 @@ public interface IProductService {
     public List<Product> getAll();
     public Long insert(String description, int amount);
     public Long update(Product product);
+    public Long delete(Product product);
 }
